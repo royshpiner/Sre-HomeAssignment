@@ -3,11 +3,20 @@ services:
     build: ./backend
     ports:
       - "3000:3000"
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=app_db
+      - ADMIN_EMAIL=admin@test.com
+      - ADMIN_PASSWORD=my_password
+      - JWT_SECRET=super_secret_jwt_key_123
+      - KAFKA_BROKER=kafka:9092
     depends_on:
       mysql:
         condition: service_healthy
-    env_file:
-      - ./backend/.env
+      kafka:
+        condition: service_started
 
   frontend:
     build: ./frontend
